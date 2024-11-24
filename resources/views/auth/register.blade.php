@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row justify-content-center mt-4">
+<div class="row justify-content-center mt-4 px-md-0 px-3">
     <div class="col-md-5">
         <div class="card">
             <div class="card-header bg-dark text-white fs-5">{{ __('Register') }}</div>

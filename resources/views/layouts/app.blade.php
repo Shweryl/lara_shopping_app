@@ -35,20 +35,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @auth
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{route('product.index')}}">Products</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li>
-                                    <hr class="dropdown-divider" />
-                                </li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
+                            <li class="nav-item"><a class="nav-link {{ request()->is('home') ? 'active' : '' }}"
+                                    aria-current="page" href="{{ route('home') }}">Home</a></li>
+                            <li class="nav-item"><a class="nav-link {{ request()->is('product*') ? 'active' : '' }}"
+                                    href="{{ route('product.index') }}">Products</a></li>
                         @endauth
                     </ul>
 
@@ -68,28 +58,45 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item me-3">
-                                <form class="d-flex">
+                            @can('create-product')
+                            <li class="nav-item mb-md-0 mb-2">
+                                <a href="{{route('product.create')}}" class="btn btn-dark text-white">Add Product</a>
+                            </li>
+                            @endcan
+                            @php
+                                $totalQty = 0;
+                                $carts = session('carts');
+                                if(isset($carts)){
+                                    foreach ($carts as $key=>$qty){
+                                    $totalQty += $qty;
+                                    }
+                                }
+                            @endphp
+                            <li class="nav-item mx-3">
+                                <form class="d-flex" action="{{route('cart.all')}}">
                                     <button class="btn btn-outline-dark" type="submit">
                                         <i class="bi-cart-fill me-1"></i>
                                         Cart
-                                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                                        <span class="badge bg-dark text-white ms-1 rounded-pill">{{$totalQty}}</span>
                                     </button>
                                 </form>
                             </li>
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center"
+                                    href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" v-pre>
                                     <i class="bi bi-person-fill fs-5 me-1"></i>
                                     <span>{{ Auth::user()->name }}</span>
                                 </a>
 
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="{{route('user.edit')}}">Edit Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('user.edit') }}">Edit Profile</a></li>
                                     <li>
                                         <hr class="dropdown-divider" />
                                     </li>
-                                    <li><a class="dropdown-item" onclick="if(!confirm('Are you sure to delete your account?')){ event.preventDefault()}" href="{{route('user.delete')}}">Delete Account</a></li>
+                                    <li><a class="dropdown-item"
+                                            onclick="if(!confirm('Are you sure to delete your account?')){ event.preventDefault()}"
+                                            href="{{ route('user.delete') }}">Delete Account</a></li>
                                     <li><a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

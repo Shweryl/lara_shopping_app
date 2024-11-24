@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-4">
+    <div class="row justify-content-center px-md-0 px-3 mt-4">
+        <div class="col-md-4 ">
             <div class="card">
                 <div class="card-header bg-dark text-white fs-5 text-center">
 
@@ -16,7 +16,7 @@
                         @method('put')
                         <div class="form-group mb-3">
                             <label for="name" class="mb-2">Name</label>
-                            <input id="name" type="name" class="form-control @error('email') is-invalid @enderror"
+                            <input id="name" type="name" class="form-control @error('name') is-invalid @enderror"
                                 name="name" value="{{ old('name', $user->name) }}" required autocomplete="name" autofocus>
 
                             @error('name')
