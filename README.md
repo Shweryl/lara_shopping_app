@@ -1,6 +1,6 @@
 <p>This small ecommerce app provides a platform for users to shop all types of products in one place,  allowing  them to track their orders and send them notification about their product's purchase.</p>
 
-<h5>Features</h5>
+<h3>Features</h3>
 <hr>
 <p>Authentication - Customer can register their account with the access of their profile management. For the authenticity and security of their account, email verification link will be sent using laravel built in verify-email feature.</p>
 
