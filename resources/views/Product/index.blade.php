@@ -12,56 +12,78 @@
     <!-- Section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5">
-            <div class="d-flex mb-2">
-                {{-- fiter by category --}}
-                <div class="dropdown me-2">
-                    <div role="button" class="dropdown-toggle btn btn-outline-dark" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <span>Filter by Category</span>
+            <div class="d-flex mb-2 flex-wrap">
+                <div class="d-flex">
+                    {{-- fiter by category --}}
+                    <div class="dropdown me-2">
+                        <div role="button" class="dropdown-toggle btn btn-outline-dark" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Filter by Category</span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item bg {{ !request()->has('category') ? 'active' : '' }}"
+                                    href="{{ route('product.index') }}">All</a></li>
+                            @foreach ($categories as $category)
+                                <li id="incomeItem"><a
+                                        class="dropdown-item {{ request('category') == $category->id ? 'active' : '' }}"
+                                        href="{{ route('product.index', ['category' => $category->id]) }}">{{ $category->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item bg {{ !request()->has('category') ? 'active' : '' }}"
-                                href="{{ route('product.index') }}">All</a></li>
-                        @foreach ($categories as $category)
-                            <li id="incomeItem"><a
-                                    class="dropdown-item {{ request('category') == $category->id ? 'active' : '' }}"
-                                    href="{{ route('product.index', ['category' => $category->id]) }}">{{ $category->name }}</a>
+
+                    {{-- filter by price range --}}
+                    <div class="dropdown mb-2">
+                        <div role="button" class="dropdown-toggle btn btn-outline-dark" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Filter by Amount</span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item bg {{ !request()->has('range') ? 'active' : '' }}"
+                                    href="{{ route('product.index') }}">All</a></li>
+                            <li id="incomeItem">
+                                <a class="dropdown-item {{ request()->input('range.from') == '10' ? 'active' : '' }}"
+                                    href="{{ route('product.index', ['range' => ['from' => 10, 'to' => 500]]) }}">$10 -
+                                    $500</a>
                             </li>
-                        @endforeach
-                    </ul>
+                            <li id="incomeItem">
+                                <a class="dropdown-item {{ request()->input('range.from') == '500' ? 'active' : '' }}"
+                                    href="{{ route('product.index', ['range' => ['from' => 500, 'to' => 1500]]) }}">$500 -
+                                    $1500</a>
+                            </li>
+                            <li id="incomeItem">
+                                <a class="dropdown-item {{ request()->input('range.from') == '1500' ? 'active' : '' }}"
+                                    href="{{ route('product.index', ['range' => ['from' => 1500, 'to' => 2000]]) }}">$1500 -
+                                    $2000</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-                {{-- filter by price range --}}
-                <div class="dropdown mb-2">
-                    <div role="button" class="dropdown-toggle btn btn-outline-dark" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <span>Filter by Amount</span>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item bg {{ !request()->has('range') ? 'active' : '' }}"
-                                href="{{ route('product.index') }}">All</a></li>
-                        <li id="incomeItem">
-                            <a class="dropdown-item {{request()->input('range.from') == '10' ? 'active' : ''}}" href="{{ route('product.index',['range'=> ['from'=> 10, 'to' => 500]]) }}">$10 - $500</a>
-                        </li>
-                        <li id="incomeItem">
-                            <a class="dropdown-item {{request()->input('range.from') == '500' ? 'active' : ''}}" href="{{ route('product.index', ['range'=> ['from'=> 500, 'to' => 1500]]) }}">$500 - $1500</a>
-                        </li>
-                        <li id="incomeItem">
-                            <a class="dropdown-item {{request()->input('range.from') == '1500' ? 'active' : ''}}" href="{{ route('product.index', ['range'=> ['from'=> 1500, 'to' => 2000]]) }}">$1500 - $2000</a>
-                        </li>
-                    </ul>
+                {{-- Search Form --}}
+                <div class="ms-auto">
+                    <form action="{{ route('product.index') }}">
+                        <div class="input-group flex-nowrap">
+                            <input type="text" class="form-control" name="search" value="{{ request()->search ? request()->search : '' }}">
+                            <button type="submit" class="input-group-text btn btn-dark">
+                                <i class="bi bi-search text-white"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
             {{-- Show filtered category --}}
-            @if(request('category'))
+            @if (request('category'))
                 @php $category = $categories->where('id', request('category'))->first(); @endphp
                 <div>
                     <small class="text-muted">Filter by Category : {{ $category->name }}</small>
                 </div>
             @endif
-            @if(request('range'))
+            {{-- Show filtered range --}}
+            @if (request('range'))
                 <div>
-                    <small class="text-muted">Price between $ {{request()->input('range.from')}} and $ {{request()->input('range.to')}}</small>
+                    <small class="text-muted">Price between $ {{ request()->input('range.from') }} and $
+                        {{ request()->input('range.to') }}</small>
                 </div>
             @endif
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mt-1">
@@ -71,11 +93,11 @@
                             <!-- Product image-->
 
                             @if (is_null($product->photo))
-                            <img class="card-img-top"  src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                            alt="..." />
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
+                                    alt="..." />
                             @else
-                            <img class="card-img-top" height="200" src="{{asset("storage/{$product->photo}")}}"
-                                alt="..." />
+                                <img class="card-img-top" height="200" src="{{ asset("storage/{$product->photo}") }}"
+                                    alt="..." />
                             @endif
 
                             <!-- Product details-->

@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    //trigger when user submite order
     public function submit(){
         $carts = session('carts');
+
         if(!isset($carts)){
             return redirect()->route('product.index')->with('message', 'There is no items. Add items');
         }
@@ -23,7 +25,7 @@ class OrderController extends Controller
             $product = Product::find($id);
             $total = $product->price * $qty;
             $itemsTotal += $total;
-            $updateQty = $product->stock - $qty; //subtract the current order qty from product total stock
+            $updateQty = $product->stock - $qty; //subtract the current order qty from product's stock
 
             Order::create([
                 'product_id' => $product->id,
@@ -40,8 +42,11 @@ class OrderController extends Controller
 
         $user = Auth::user();
         $user->notify(new OrderNotify()); //notify user about order
+        return redirect()->route('order.confirm');
 
-        return redirect()->route('cart.all');
+    }
 
+    public function confirm(){
+        return view('Cart.orderConfirm');
     }
 }

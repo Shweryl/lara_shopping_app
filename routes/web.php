@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 Route::get('/',function(){
-    return view('auth.login');
+    return view('auth.register');
 });
 
 Route::middleware(['auth', 'verified'])->group(function(){
@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/cart/all', [CartController::class, 'allcarts'])->name('cart.all');
     Route::get('/cart/{id}/clear', [CartController::class, 'clear'])->name('cart.clear');
     Route::get('/ordersubmit', [OrderController::class, 'submit'])->name('order.submit');
+    Route::get('/orderconfirm', [OrderController::class, 'confirm'])->name('order.confirm');
 });
 
 

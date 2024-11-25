@@ -58,6 +58,7 @@
                                 </li>
                             @endif
                         @else
+                            {{-- Only admin can see this --}}
                             @can('create-product')
                             <li class="nav-item mb-md-0 mb-2">
                                 <a href="{{route('product.create')}}" class="btn btn-dark text-white">Add Product</a>
@@ -127,6 +128,11 @@
         </main>
     </div>
     @stack('script')
+    @if(session('message'))
+        <script>
+            alert("{{session('message')}}")
+        </script>
+    @endif
 </body>
 
 </html>

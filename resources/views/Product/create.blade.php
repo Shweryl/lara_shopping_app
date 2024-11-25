@@ -16,7 +16,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="mb-2">Name</label>
                                 <input id="name" type="name" class="form-control @error('name') is-invalid @enderror"
-                                    name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                    name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -28,7 +28,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="price" class="mb-2">Price</label>
                                 <input id="price" type="number" class="form-control @error('price') is-invalid @enderror"
-                                    name="price" value="{{ old('price') }}" required autocomplete="price"
+                                    name="price" value="{{ old('price') }}" autocomplete="price"
                                     autofocus>
 
                                 @error('price')
@@ -49,7 +49,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="stock" class="mb-2">Stock</label>
                                 <input id="stock" type="number" class="form-control @error('stock') is-invalid @enderror"
-                                    name="stock" value="{{ old('stock') }}" required autocomplete="stock"
+                                    name="stock" value="{{ old('stock') }}" autocomplete="stock"
                                     autofocus>
 
                                 @error('stock')
@@ -61,7 +61,7 @@
                             <div class="col-12 mb-3">
                                 <label for="description" class="mb-2">Description</label>
                                 <textarea id="description" cols="3" type="text" class="form-control @error('description') is-invalid @enderror"
-                                    name="description" value="" required autocomplete="description"
+                                    name="description" value="" autocomplete="description"
                                     autofocus>
                                     {{ old('description') }}
                                 </textarea>

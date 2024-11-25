@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
-class OrderNotify extends Notification
+class OrderNotify extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -36,7 +36,7 @@ class OrderNotify extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->greeting('Hello'.' '. Auth::user()->name)
+                    ->greeting('Hello')
                     ->line('Your order has been placed')
                     ->line('Order will be sent to you not less than 2 weeks')
                     ->line('The delivery will contact you')

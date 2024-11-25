@@ -13,10 +13,14 @@ class ProductController extends Controller
     public function index(Request $request){
         $cat = $request->category;
         $range = $request->range;
-        $products = Product::when($cat, function($q, $cat){
+        $search = $request->search;
+        $products = Product::when($cat, function($q, $cat){ //filter with category
             $q->where('category_id', $cat);
         })
-        ->when($range, function($q, $range){
+        ->when($search, function($q, $search){ //search
+            $q->where('name','like',"%$search%");
+        })
+        ->when($range, function($q, $range){ //filter with range
             $q->whereBetween('price', [$range['from'], $range['to']]);
         })
         ->latest()
@@ -26,7 +30,7 @@ class ProductController extends Controller
     }
 
     public function create(){
-        if(!Gate::allows('create-product')){
+        if(!Gate::allows('create-product')){ //only admin can create product
             return redirect()->route('home');
         }
         $categories = Category::all();
