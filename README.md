@@ -11,3 +11,6 @@
 <p> 4) Order purchase - All the cart items information are showcased in Checkout session. Upon order submission, customers receive order notifications, keeping them updated about their purchases.</p>
 
 <p> 5) Responsiveness - The application is fully responsive, ensuring seamless usability across devices of various screen sizes</p>
+
+<hr>
+https://github.com/Shweryl/lara_shopping_app/blob/b40bee3789bab2bb765b74f48802915de1af9fb5/Shop_Screenshots/Screenshot%20(40).png
