@@ -13,5 +13,4 @@
 <p> 5) Responsiveness - The application is fully responsive, ensuring seamless usability across devices of various screen sizes</p>
 
 <hr>
-![Screenshot](https://github.com/Shweryl/lara_shopping_app/blob/master/Shop_Screenshots/Screenshot%20(40).png)
 
